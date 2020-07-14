@@ -23,6 +23,8 @@ import backtype.storm.scheduler.SchedulerAssignment;
 import backtype.storm.scheduler.Topologies;
 import backtype.storm.scheduler.WorkerSlot;
 
+
+//  how to use : assignmentTracker.checkAssignment(topologies, cluster)
 public class AssignmentTracker {
 
 	/**
@@ -38,6 +40,7 @@ public class AssignmentTracker {
 			List<String> topologyList = new ArrayList<String>();
 			Map<String, Map<Integer, List<String>>> assignment = new HashMap<String, Map<Integer,List<String>>>();
 			for (String topologyId : cluster.getAssignments().keySet()) {
+				// the keyset of getAssignment is TopologyID
 				topologyList.add(topologyId);
 				SchedulerAssignment topologyAssignment = cluster.getAssignmentById(topologyId);
 				Map<ExecutorDetails, WorkerSlot> realAssignment = topologyAssignment.getExecutorToSlot();
@@ -45,7 +48,10 @@ public class AssignmentTracker {
 					// get executor info
 					WorkerSlot slot = realAssignment.get(executor);
 					String host = cluster.getSupervisorById( slot.getNodeId() ).getHost();
+					// host : the host the supervisor is on.
 					int port = slot.getPort();
+					// Map<ExecutorDetails,String>	getExecutorToComponent() 
+					// executorDescription component + startTask + endTask
 					String executorDescription = 
 						topologies.getById(topologyId).getExecutorToComponent().get(executor) + 
 						"[" + executor.getStartTask() + "," + executor.getEndTask() + "]";
