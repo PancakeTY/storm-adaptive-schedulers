@@ -38,6 +38,7 @@ public class AssignmentTracker {
 		try {
 			// compile current assignment
 			List<String> topologyList = new ArrayList<String>();
+			// assignment (host (port, executorDescription))
 			Map<String, Map<Integer, List<String>>> assignment = new HashMap<String, Map<Integer,List<String>>>();
 			for (String topologyId : cluster.getAssignments().keySet()) {
 				// the keyset of getAssignment is TopologyID
@@ -70,14 +71,18 @@ public class AssignmentTracker {
 					executorsForSlot.add(executorDescription);
 				}
 			}
-			
+			// lastAssignment != assignment or lastAssignment == NULL
 			if (lastAssignment == null || !assignmentsAreEqual(assignment, lastAssignment)) {
 				lastAssignment = assignment;
+				// assignment (host (port, executorDescription))
+				// assignment is not empty 
 				if (!lastAssignment.keySet().isEmpty()) {
+					// transfer assignment to string
 					String serializedAssignment = serializeAssignment(lastAssignment);
 					logger.info("ASSIGNMENT CHANGED");
 					logger.info(serializedAssignment);
 					try {
+						//store the assignment in DataManager
 						DataManager.getInstance().StoreAssignment(Utils.collectionToString(topologyList), serializedAssignment);
 					} catch (Exception e) {
 						logger.error("An error occurred storing an assignment", e);
