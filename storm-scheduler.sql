@@ -111,13 +111,11 @@ DROP TABLE IF EXISTS `cpu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cpu` (
+  `node` varchar(45) NOT NULL,
   `topology_id` int(11) NOT NULL,
-  `pid` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `thread_id` int(11) NOT NULL,
+  `component_name` varchar(45) NOT NULL,
   `task_id` int(11) NOT NULL,
-  `interval` int(11) NOT NULL,
-  `cputime` int(11) NOT NULL,
+  `utilization` double(16,4) NOT NULL,
   UNIQUE KEY `task_id_UNIQUE` (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
