@@ -116,7 +116,8 @@ CREATE TABLE `cpu` (
   `component_name` varchar(45) NOT NULL,
   `task_id` int(11) NOT NULL,
   `utilization` double(16,4) NOT NULL,
-  UNIQUE KEY `task_id_UNIQUE` (`task_id`)
+  KEY `topology_FK2` (`topology_id`),
+  CONSTRAINT `topology_FK2` FOREIGN KEY (`topology_id`) REFERENCES `topology` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
